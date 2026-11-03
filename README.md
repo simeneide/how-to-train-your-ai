@@ -10,6 +10,19 @@ Norges Bank prognoserer inflasjonen med rundt 500 statistiske modeller i SMART. 
 
 Deltakerne trenger ikke kode. Hver oppgave har et skjema med tall de endrer, og notebooken viser prognosen, feilen og en ledertavle. Vi avslutter med at hver modell gir en prognose for KPI-JAE i oktober, som SSB publiserer 10. november.
 
+## Rammeverket: data, modell, trening, beslutning
+
+Workshopen følger de samme fire stegene som foredraget om morgenen. Alle modeller, fra de Witts livrenter i 1671 til SMART og språkmodeller, består av de samme delene:
+
+| Steg | Spørsmål | I workshopen | I SMART |
+|---|---|---|---|
+| **Data** | Hva vet vi? | `make_x(...)`: hvilke serier og hvor mange måneder tilbake | real-time-databasen med alle publiseringer |
+| **Modell** | Hvordan henger det sammen? | `nn.Linear`, `nn.Sequential`: en funksjon med parametere | ~500 modeller i 15 ensembler |
+| **Trening** | Hvilke parametere passer dataene best? | `train(...)`: treningsløkka, weight decay, valgt på validering | OLS, Bayesiansk estimering, vekting etter treff |
+| **Beslutning** | Hva gjør vi med svaret? | ledertavla og prognosen for oktober | prognosen i Pengepolitisk rapport, og renten |
+
+I hver oppgave er koden delt i de fire stegene, så det er lett å se hva du endrer: data (hvilke serier), modell (hvor stort nett), trening (hvor mye prior) eller beslutning (hvilken modell vi stoler på).
+
 ## Bakgrunn: KPI-JAE
 
 KPI-JAE er konsumprisindeksen justert for avgiftsendringer og uten energivarer. Strøm og drivstoff svinger mye og sier lite om den underliggende prisveksten, og avgiftsendringer er politiske vedtak. Derfor er KPI-JAE et av de viktigste målene på underliggende inflasjon når Norges Bank setter renten mot inflasjonsmålet på 2 %.
@@ -29,16 +42,22 @@ SSB publiserer KPI-JAE månedlig, rundt den 10. i måneden etter. Norges Bank ha
 | Delindekser i KPI | 40 | husleie, kjøp av kjøretøy, flyreiser, pakkereiser |
 | Drivere | 5 | kronekurs (I44), oljepris (Brent), internasjonale priser (IPK, IPI), registrert ledighet |
 
-Alle prisseriene er sesongjusterte, med 2025 = 100. De siste månedene av KPI-JAE:
+Slik ser dataene ut: ett utvalg av de 61 kolonnene, de seks siste månedene. Prisindeksene er sesongjusterte, med 2025 = 100.
 
-| Måned | KPI-JAE (2025=100) | Endring fra måneden før, % | Endring siste 12 mnd, % |
-|:--|--:|--:|--:|
-| 2026-04 | 102.5 | 0.20 | 3.22 |
-| 2026-05 | 102.8 | 0.29 | 3.32 |
-| 2026-06 | 102.7 | -0.10 | 2.80 |
-| 2026-07 | 102.9 | 0.19 | 2.69 |
-| 2026-08 | 103.3 | 0.39 | 2.99 |
-| 2026-09 | 103.5 | 0.19 | 2.99 |
+| Måned | KPI-JAE | Norskprod. | Import | Mat (K1) | Restaurant (K11) | Husleie (K041) | Kronekurs (I44) | Brent | IPK | Ledighet % |
+|:--|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+| 2026M4 | 102.5 | 102.93 | 101.48 | 103.12 | 104.82 | 102.94 | 112.19 | 118.34 | 120.72 | 2.06 |
+| 2026M5 | 102.8 | 103.06 | 102.32 | 102.67 | 105.24 | 103.14 | 110.07 | 107.99 | 120.91 | 2.05 |
+| 2026M6 | 102.7 | 103.18 | 101.54 | 102.19 | 105.68 | 103.41 | 112.82 | 85.33 | 121.24 | 2.03 |
+| 2026M7 | 102.9 | 103.50 | 101.46 | 102.09 | 105.92 | 103.77 | 113.48 | 84.09 | 121.75 | 2.05 |
+| 2026M8 | 103.3 | 104.06 | 101.66 | 102.46 | 106.15 | 104.07 | 111.55 | 90.82 | 122.08 | 2.04 |
+| 2026M9 | 103.5 | 104.49 | 101.31 | 103.55 | 106.50 | 104.30 | 110.32 | 113.92 | 122.54 | 2.02 |
+
+- **KPI-JAE, Norskprod., Import:** totalen og de to leveringssektorene (`MSA_PCPIJAE`, `MSA_PCPIJAEI`, `MSA_PCPIJAEIMP`).
+- **Mat, Restaurant:** to av de 13 hovedgruppene (`MSA_PCPIJAE_25_K1`, `_K11`). **Husleie:** én av de 40 delindeksene (`KPI.KPI.25.K041.IPR.S`).
+- **Kronekurs (I44):** importveid kronekurs, høyere tall betyr svakere krone. **Brent:** oljeprisen. **IPK:** internasjonale priser på importerte konsumvarer. **Ledighet:** registrert ledighet fra NAV, i prosent.
+
+Fra indeksnivåene regner vi ut endringen i prosent. For KPI-JAE i september 2026: 0,19 % fra august, og 2,99 % fra september i fjor.
 
 I workshopen prognoserer vi **endringen fra én måned til neste**. Indeksen har én desimal, så månedsendringene hopper i trinn på omtrent 0,1 prosentpoeng. Det er en del av støyen ingen modell kan forklare.
 
