@@ -122,8 +122,10 @@ Testet 2. november 2026 (RMSE på månedsendringen i testperioden): naiv 0,292, 
 
 **Colab:** klikk på knappen øverst. Første celle henter datasettet fra GitHub. Så lenge repoet er privat, må du logge inn med GitHub i Colab for å åpne notebooken, og laste opp `data/forTecDay.xlsx` når cellen spør.
 
-**Lokalt (VS Code eller Jupyter):**
+**Lokalt med uv (VS Code eller Jupyter):**
 
 ```sh
-uv run --with jupyter --with torch --with pandas --with openpyxl --with matplotlib jupyter lab workshop.ipynb
+uv sync                           # lager .venv med Python 3.12, PyTorch, pandas osv.
+code .                            # VS Code: åpne workshop.ipynb og velg kernel .venv
+uv run --with jupyter jupyter lab # eller i nettleseren
 ```
