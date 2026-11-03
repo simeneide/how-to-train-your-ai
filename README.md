@@ -59,7 +59,7 @@ Slik ser dataene ut: ett utvalg av de 61 kolonnene, de seks siste månedene. Pri
 
 Fra indeksnivåene regner vi ut endringen i prosent. For KPI-JAE i september 2026: 0,19 % fra august, og 2,99 % fra september i fjor.
 
-I workshopen prognoserer vi **endringen fra én måned til neste**. Indeksen har én desimal, så månedsendringene hopper i trinn på omtrent 0,1 prosentpoeng. Det er en del av støyen ingen modell kan forklare.
+I workshopen prognoserer vi indeksnivået neste måned. Siden nivået denne måneden er kjent, er det samme problem som å prognosere **endringen fra én måned til neste**, og det er endringen modellene jobber med. Den svinger rundt et stabilt snitt, mens nivået stiger nesten hele tiden. Til slutt regnes prognosen tilbake til nivå og tolvmånedersvekst. Indeksen har én desimal, så månedsendringene hopper i trinn på omtrent 0,1 prosentpoeng. Det er en del av støyen ingen modell kan forklare.
 
 Fallgruver i dataene (mer i beskrivelsen):
 - Sesongjusteringen er gjort på forskjellige måter: X-12-ARIMA for totalen, FAME for hovedgruppene, SMART-modeller for delindeksene og NAV for ledigheten.
