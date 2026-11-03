@@ -1,4 +1,4 @@
-# How to train your AI: fra statistiske modeller til nevrale nettverk
+# Fra statistiske modeller til nevrale nettverk
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/simeneide/how-to-train-your-ai/blob/main/workshop.ipynb)
 
@@ -16,7 +16,7 @@ Workshopen følger de samme fire stegene som foredraget om morgenen. Alle modell
 
 | Steg | Spørsmål | I workshopen | I SMART |
 |---|---|---|---|
-| **Data** | Hva vet vi? | `make_x(...)`: hvilke serier og hvor mange måneder tilbake | real-time-databasen med alle publiseringer |
+| **Data** | Hva vet vi? | ett felles datasett X, og `kolonner(...)` velger hvilke serier og hvor mange måneder tilbake | real-time-databasen med alle publiseringer |
 | **Modell** | Hvordan henger det sammen? | `nn.Linear`, `nn.Sequential`: en funksjon med parametere | ~500 modeller i 15 ensembler |
 | **Trening** | Hvilke parametere passer dataene best? | `train(...)`: treningsløkka, weight decay, valgt på validering | OLS, Bayesiansk estimering, vekting etter treff |
 | **Beslutning** | Hva gjør vi med svaret? | ledertavla og prognosen for oktober | prognosen i Pengepolitisk rapport, og renten |
