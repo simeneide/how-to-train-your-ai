@@ -69,7 +69,7 @@ Fallgruver i dataene (mer i beskrivelsen):
 ```python
 import pandas as pd
 
-d = pd.read_excel("data/forTecDay.xlsx").set_index("Time")  # Time: "2026M9"
+d = pd.read_excel("https://raw.githubusercontent.com/simeneide/how-to-train-your-ai/main/data/forTecDay.xlsx").set_index("Time")  # Time: "2026M9"
 d["MSA_PCPIJAE"].tail()  # KPI-JAE
 ```
 
@@ -120,7 +120,7 @@ Testet 2. november 2026 (RMSE på månedsendringen i testperioden): naiv 0,292, 
 
 ## Kjøre notebooken
 
-**Colab:** klikk på knappen øverst. Første celle henter datasettet fra GitHub. Så lenge repoet er privat, må du logge inn med GitHub i Colab for å åpne notebooken, og laste opp `data/forTecDay.xlsx` når cellen spør.
+**Colab:** klikk på knappen øverst og kjør alle cellene. Notebooken leser datasettet rett fra GitHub, så du trenger ikke laste opp noe.
 
 **Lokalt med uv (VS Code eller Jupyter):**
 
