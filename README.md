@@ -66,6 +66,24 @@ Fallgruver i dataene (mer i beskrivelsen):
 - Tre delindekser (K062, K064, K133) har ikke sesongmønster, så den justerte serien er lik den ujusterte.
 - Kronekurs og oljepris er daglige serier som er gjort om til månedlige.
 
+### Taler og foredrag (oppgave 5)
+
+`data/taler.parquet` har alle talene og foredragene på norges-bank.no siden 1997 (412 stykker), også innledningene på pressekonferansene etter rentemøtene. Én rad per tale:
+
+| Kolonne | Hva |
+|---|---|
+| `dato`, `tittel`, `url` | når og hva |
+| `tekst` | hele teksten fra nettsiden |
+| `embedding` | talen som 768 tall fra `intfloat/multilingual-e5-base`, snittet over biter på 1200 tegn |
+| `clef_pengepolitikk` | sannsynligheten for at talen handler om inflasjon, renten eller pengepolitikken |
+| `clef_inflasjon` | talerens syn på inflasjonen framover, fra -2 (klart under målet) til +2 (klart over) |
+| `clef_rente` | signalet om renten framover, fra -2 (klart ned) til +2 (klart opp) |
+| `clef_*_sikkerhet` | sannsynligheten for det mest sannsynlige svaret |
+
+Clef-svarene er fra [Cloudflare Clef-flash](https://huggingface.co/mlx-community/clef-flash-4bit), en åpen modell (Apache 2.0) som ikke skriver tekst, men gir en sannsynlighet for hvert tillatte svar på spørsmålene vi stiller. `clef_inflasjon` og `clef_rente` er forventningen over de fem svarene. `data/lag_taler.py` lager fila på nytt (krever en Mac med Apple Silicon for Clef-steget).
+
+Pass på framtiden: en tale kan bare brukes fra måneden den ble holdt. I notebooken lager vi månedlige kolonner og viderefører siste tale fram til neste.
+
 ```python
 import pandas as pd
 
@@ -115,8 +133,11 @@ Workshopen forenkler dette:
 2. **VAR og prior:** flere serier gir overtilpasning, og weight decay (= BVAR-prior) hjelper.
 3. **Fra faktormodell til nevralt nett:** skjult lag som flaskehals, så ReLU og dropout.
 4. **Slå AR:** fri modell, valgt på valideringsfeil. Ledertavle og prognose for oktober-KPI.
+5. **Tekst som data:** Norges Banks taler som ekstra kolonner, både som embeddinger og som svar fra en åpen beslutningsmodell (Clef-flash). Hjelper det?
 
 Testet 2. november 2026 (RMSE på månedsendringen i testperioden): naiv 0,292, snitt siste 12 måneder 0,223, AR(12) 0,210, VAR med kronekurs, olje og importpriser 0,192, faktormodell 0,312.
+
+Oppgave 5, testet 5. november 2026: AR(12) med Clef-svarene fra talene gir 0,217 på validering (AR(12): 0,221) og 0,202 på test (AR(12): 0,210). Embeddingene alene hjelper nesten ikke.
 
 ## Kjøre notebooken
 
