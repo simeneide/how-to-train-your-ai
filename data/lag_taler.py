@@ -56,7 +56,7 @@ def hent() -> None:
     out = CACHE / "speeches.jsonl"
     done = {json.loads(line)["url"] for line in out.open()} if out.exists() else set()
     session = requests.Session()
-    session.headers["User-Agent"] = "how-to-train-your-ai/1.0"
+    session.headers["User-Agent"] = "norgesbank-workshop/1.0"
     sitemap = session.get(
         "https://www.norges-bank.no/sitemaps/norges-bank/no/content.xml", timeout=30
     ).text

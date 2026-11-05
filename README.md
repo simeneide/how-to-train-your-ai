@@ -1,6 +1,6 @@
 # Fra statistiske modeller til nevrale nettverk
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/simeneide/how-to-train-your-ai/blob/main/workshop.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/simeneide/norgesbank-workshop/blob/main/workshop.ipynb)
 
 Workshop, Tech Day, Norges Bank, 6. november 2026 (90 min). Simen Eide.
 
@@ -87,7 +87,7 @@ Pass på framtiden: en tale kan bare brukes fra måneden den ble holdt. I notebo
 ```python
 import pandas as pd
 
-d = pd.read_excel("https://raw.githubusercontent.com/simeneide/how-to-train-your-ai/main/data/forTecDay.xlsx").set_index("Time")  # Time: "2026M9"
+d = pd.read_excel("https://raw.githubusercontent.com/simeneide/norgesbank-workshop/main/data/forTecDay.xlsx").set_index("Time")  # Time: "2026M9"
 d["MSA_PCPIJAE"].tail()  # KPI-JAE
 ```
 
